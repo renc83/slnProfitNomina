@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using slnProfitNomina.Data;
 
 namespace slnProfitNomina
 {
@@ -19,15 +20,23 @@ namespace slnProfitNomina
 
 		private void bntIngresar_Click(object sender, EventArgs e)
 		{
-			if (txtUsuario.Text == "")
+			if (txtUsuario.Text == "" || txtPassword.Text == "")
 			{
-				MessageBox.Show("Ingrese Usuario Profit");
+				MessageBox.Show("Ingrese los Datos Necesarios", "Baltico Consultores");
 				txtUsuario.Focus();
 			}
 			else {
-				frmEmpresas formulario = new frmEmpresas(txtUsuario.Text);
-				formulario.ShowDialog();
-				this.Close();
+				dValidaPassword Validador = new dValidaPassword();
+				if (Validador.ValidaPassword(txtUsuario.Text, txtPassword.Text))
+				{
+					frmEmpresas formulario = new frmEmpresas(txtUsuario.Text);
+					formulario.ShowDialog();
+					this.Close();
+				}
+				else {
+					MessageBox.Show("Datos ingresados son Incorrectos", "Baltico Consultores");
+					txtUsuario.Focus();
+				}
 			}
 		}
 	}
